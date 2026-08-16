@@ -1,0 +1,41 @@
+source: "DSSC Blueprint v1.5 / DSSC Glossary"
+terms:
+  - label: Participant
+    definition: A party that takes part in a data space in one or more roles.
+  - label: Data Provider
+    definition: >-
+      A data space participant that, in the context of a specific data
+      transaction, technically provides data to the data recipients that have a
+      right or duty to access or receive that data.
+  - label: Data Consumer
+    aliases: [Data User, Data Recipient]
+    definition: A party consuming data from the ecosystem.
+  - label: Data Space Governance Authority
+    definition: >-
+      The data space participant accountable for creating, developing,
+      maintaining and enforcing a governance framework for a particular data space.
+  - label: Service Provider
+    definition: A party providing services to the data space and its participants.
+  - label: Data Intermediary
+    definition: >-
+      A data space participant that provides one or more data space enabling
+      services while not directly participating in the data transactions itself.
+  - label: Data Product
+    definition: >-
+      A data sharing unit packaging data and metadata together with associated
+      license terms.
+  - label: Data Rights Holder
+    definition: >-
+      The party holding rights over data and able to define the conditions under
+      which it may be used.
+  - label: Rulebook
+    definition: >-
+      The document set expressing the governance framework of a data space.
+  - label: Trust Anchor
+    definition: >-
+      An authoritative entity whose assertions other participants accept as a
+      starting point for verifying trust.
+  - label: Provenance Traceability
+    definition: >-
+      The chronology of ownership of a data element allowing data to be traced
+      back to its original owner or creator.

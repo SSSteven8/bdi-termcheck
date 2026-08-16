@@ -1,0 +1,123 @@
+# Configuratie voor bdi-termcheck.
+# Alles wat menselijk oordeel vraagt staat hier, niet in de code.
+
+index_url: https://bdi.gitbook.io/bdi-public-documentation/llms.txt
+
+# Pagina's die als canonieke glossary gelden (pad na /bdi-public-documentation/)
+glossary_pages:
+  - readme/glossary/bdi-terms.md
+  - readme/glossary.md
+
+external_glossaries:
+  CTN: glossaries/ctn.yaml
+  DSSC: glossaries/dssc.yaml
+  iSHARE: glossaries/ishare.yaml
+  OIDC: glossaries/oidc.yaml
+
+undefined:
+  min_pages: 2
+  min_hits: 4
+
+# --------------------------------------------------------------------------
+# C1: schrijfwijzen die door elkaar heen gebruikt worden.
+# 'preferred' is het voorstel; de rest wordt altLabel of vervalt.
+# --------------------------------------------------------------------------
+variant_groups:
+  - preferred: Association Register
+    variants: [Association Register, Association Registry, Association Registry (ASR), Branch Register]
+    severity: high
+    suggestion: >-
+      Standaardiseer op 'Association Register' (afkorting ASR). 'Registry' is een
+      Amerikaanse spelvariant, 'Branch Register' lijkt vervallen.
+
+  - preferred: Orchestration Register
+    variants: [Orchestration Register, Orchestration Registry, Orchestrations Register]
+    severity: high
+    suggestion: >-
+      Standaardiseer op 'Orchestration Register' (afkorting ORS). Nu staan er drie
+      schrijfwijzen op één pagina.
+
+  - preferred: BVAD
+    variants: [VAD, BVAD, Verifiable Association Data, Verifiable Assurance Document]
+    severity: blocker
+    suggestion: >-
+      Kies één uitschrijving. 'Verifiable Assurance Document' in de acroniemtabel
+      van het CTN-document is een fout.
+
+  - preferred: BVOD
+    variants: [VOD, BVOD, Verifiable Orchestration Data, Verifiable Orchestration Document]
+    severity: blocker
+    suggestion: Zie BVAD; zelfde keuze consistent doorvoeren.
+
+  - preferred: Root Association
+    variants: [Root Association, Home Association]
+    severity: high
+    suggestion: >-
+      Twee namen voor hetzelfde begrip, allebei in gebruik. Kies er één en maak de
+      ander skos:altLabel.
+
+  - preferred: Data Custodian
+    variants: [Data Custodian, Data Owner, Data Holder, Data Provider, Data Service Provider, Custodian]
+    severity: blocker
+    suggestion: >-
+      Vier rollen die deels hetzelfde betekenen en op één pagina door elkaar
+      gebruikt worden. Maak een expliciet rollenmodel (zie iSHARE RFC042).
+
+  - preferred: BDI Association Roles
+    variants: [Certified Roles, Common Roles, BDI Roles, BDI Association Roles, Logistic Role]
+    severity: high
+    suggestion: >-
+      Eén bouwsteen, vijf namen (slug, titel en body verschillen). Kies één naam.
+
+  - preferred: Authorization Register
+    variants:
+      [Authorization Register Data Management, AR-DM, Dynamic Authorization Register,
+       Local Policy Engine, Autorization Register]
+    severity: high
+    suggestion: >-
+      AR-DM staat nog in de glossary maar de nieuwe Trust KIT-pagina's spreken van
+      Local Policy Engine; CTN gebruikt DAR. Werk bij of markeer als vervallen.
+
+  - preferred: Operations and Supply Chain Data Space
+    variants: [Operational Data Store, Operations and Supply Chain Data Spaces]
+    severity: blocker
+    suggestion: >-
+      Twee volstrekt verschillende begrippen delen de afkorting ODS. Geef er één
+      een andere afkorting.
+
+  - preferred: Member
+    variants: [Member, Participant]
+    severity: high
+    suggestion: >-
+      BDI zegt Member, CTN zegt Participant. Het document is leidend, dus overweeg
+      Participant, met Member gereserveerd voor oprichters/bestuur.
+
+  - preferred: System
+    variants: [System, Application]
+    severity: medium
+    suggestion: >-
+      Op de Digital Identity-pagina heet de derde identiteit in de kop 'Applications'
+      en in de tekst 'System'.
+
+  - preferred: Data Sharing
+    variants: [Data Sharing, Data Exchange]
+    severity: low
+    suggestion: >-
+      Nu synoniem in de glossary. DSSC en de Data Act onderscheiden ze wel.
+
+# --------------------------------------------------------------------------
+# C5: handmatig vastgelegde koppelingen naar externe standaarden.
+# Sleutel = genormaliseerd label. Waarde = SKOS-predicaat -> URI.
+# --------------------------------------------------------------------------
+skos_mappings:
+  data custodian:
+    closeMatch: https://dssc.eu/glossary/data-provider
+  data consumer:
+    closeMatch: https://dssc.eu/glossary/data-consumer
+  identity provider:
+    closeMatch: https://openid.net/specs/openid-connect-core-1_0.html#Terminology
+  association:
+    relatedMatch: https://dssc.eu/glossary/data-space-governance-authority
+
+# Begrippen die als vervallen gemarkeerd moeten worden in het SKOS-bestand
+deprecated: []

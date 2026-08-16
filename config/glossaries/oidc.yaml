@@ -1,0 +1,41 @@
+source: "OpenID Connect Core 1.0 incorporating errata set 2"
+terms:
+  - label: OpenID Provider
+    aliases: [OP]
+    definition: >-
+      OAuth 2.0 authorization server that is capable of authenticating the end
+      user and providing claims to a relying party about the authentication event
+      and the end user.
+  - label: Relying Party
+    aliases: [RP]
+    definition: >-
+      OAuth 2.0 client application requiring end user authentication and claims
+      from an OpenID provider.
+  - label: End-User
+    definition: Human participant.
+  - label: Claim
+    definition: Piece of information asserted about an entity.
+  - label: ID Token
+    definition: >-
+      JSON web token that contains claims about the authentication event and
+      optionally other claims about the end user.
+  - label: Subject Identifier
+    aliases: [sub]
+    definition: >-
+      Locally unique and never reassigned identifier within the issuer for the
+      end user, intended to be consumed by the relying party.
+  - label: Issuer
+    aliases: [iss]
+    definition: Entity that issues a set of claims.
+  - label: Authentication Context Class Reference
+    aliases: [acr]
+    definition: >-
+      Identifier for a set of business rules that authentications are required to
+      satisfy, ordered by level of assurance.
+  - label: Authorized Party
+    aliases: [azp]
+    definition: The party to which the ID token was issued.
+  - label: Request Object
+    definition: >-
+      JWT containing a set of request parameters as its claims, signed and
+      optionally encrypted.

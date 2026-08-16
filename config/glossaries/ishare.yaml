@@ -1,0 +1,36 @@
+source: "iSHARE Trust Framework, na RFC042 Harmonise terminology"
+terms:
+  - label: Service Consumer
+    definition: >-
+      Adhering role consuming data or services. Elders Data Consumer, Data User
+      of Data Recipient genoemd.
+  - label: Service Provider
+    definition: >-
+      Adhering role providing data or services. Elders Data Provider of Data Node
+      genoemd.
+  - label: Entitled Party
+    definition: >-
+      Adhering role holding the rights over the data. Elders Data Owner of Data
+      Holder genoemd; iSHARE vermijdt bewust het woord owner.
+  - label: Identity Provider
+    definition: Certified role that identifies and authenticates human end users.
+  - label: Identity Broker
+    definition: >-
+      Certified role that lets a relying party reach multiple identity providers
+      without a direct relationship with each of them.
+  - label: Authorisation Registry
+    definition: Certified role holding delegation and authorisation evidence.
+  - label: Participant Registry
+    definition: >-
+      Certified role responsible for the operational participant lifecycle
+      processes of a data space. Voorheen Satellite.
+  - label: Participant Administrator
+    definition: >-
+      Other role, party working under the Participant Registry and executing the
+      operational processes. Voorheen Satellite Administrator.
+  - label: Data Space Governance Body
+    definition: >-
+      Other role responsible for defining, evolving and governing the participant
+      lifecycle processes of a data space.
+  - label: Scheme Owner
+    definition: The party that owns and maintains the trust framework itself.

@@ -1,0 +1,127 @@
+# Begrippen uit 2020522-DIL-CTN-glossary.docx (v1.2, Approved).
+# Dit bestand is de machineleesbare kopie van het leidende document.
+# Bij een nieuwe versie van het document: dit bestand bijwerken.
+source: "CTN Glossary v1.2"
+terms:
+  - label: Association
+    definition: >-
+      Legal entity that serves as trust anchor for both federated trust
+      authentication and local onboarding. In CTN structured as a cooperative
+      association with participants rather than legal members.
+  - label: Association Register
+    aliases: [ASR]
+    definition: >-
+      Register of onboarded Members and Preferred Business Partners of a
+      particular BDI Association instance. Used to perform compliance checks and
+      to issue VAD tokens that prove participant status and trustworthiness.
+  - label: Authority
+    definition: >-
+      Regulatory bodies such as customs, port authorities and safety inspectors
+      that need access to transport data for regulatory oversight, compliance and
+      security operations.
+  - label: Custodian
+    definition: >-
+      An organization that holds operational data such as terminals, carriers and
+      logistics providers, and controls access to it based on authorization policies.
+  - label: Data at the Source
+    definition: >-
+      BDI principle that data primarily remains with its owner or custodian and is
+      accessed on demand through controlled interfaces rather than copied into a
+      central store. A design preference rather than an absolute.
+  - label: Dossier
+    definition: >-
+      A collection of information about a transport order, including involved
+      parties, their roles and relationships. Managed by the Orchestration Register.
+  - label: Dual-Token Pattern
+    definition: >-
+      Authorization pattern requiring both VAD for participation and VOD for
+      involvement to access protected data.
+  - label: Dynamic Authorization Register
+    aliases: [DAR]
+    definition: >-
+      System that makes real-time authorization decisions based on tokens,
+      policies and business rules.
+  - label: Enrollment
+    definition: >-
+      The process of registering parties as participants in a specific transport
+      dossier, giving them access rights to relevant data.
+  - label: Evidence Token
+    definition: >-
+      A token, VAD or VOD, that provides evidence of a claim but is not itself an
+      access token. Used by custodians to make authorization decisions.
+  - label: Involvement Type
+    definition: >-
+      The role a party plays in a transport order, for example carrier, terminal,
+      trucker or customs agent.
+  - label: Member
+    definition: >-
+      Organizations that founded the CTN Association and form its board.
+  - label: Non-Participant Party
+    definition: >-
+      A transport party that is not an association participant but is involved in
+      a transport through subcontracting relationships.
+  - label: Orchestration Register
+    definition: >-
+      System that manages transport dossiers, party enrollment, and issues VOD tokens.
+  - label: Orchestrator
+    definition: >-
+      The party responsible for coordinating a transport order, typically the
+      beneficial cargo owner or forwarder.
+  - label: Participant
+    definition: >-
+      Any organization that has been successfully onboarded to the CTN Association
+      and has accepted its terms and conditions. Participants can consume and
+      provide data to other participants and founding members within the network.
+  - label: Party
+    definition: >-
+      Any organization involved in the transport of containers regardless of their
+      membership or participation status in an association.
+  - label: Principal
+    definition: >-
+      The party that takes responsibility including potential billing for another
+      party's data access.
+  - label: Subcontractor
+    definition: >-
+      A party brought into a transport operation by another party, often not
+      directly contracted by the orchestrator.
+  - label: Tenant
+    definition: >-
+      In multi-tenant architecture an isolated instance serving a specific
+      orchestrator or organization.
+  - label: Tiered Access
+    definition: >-
+      Different levels of data access, full, limited or basic, based on
+      participation status and business relationships.
+  - label: Transport Order
+    definition: >-
+      The business transaction that initiates container movement from origin to
+      destination.
+  - label: Trust Chain
+    definition: >-
+      The hierarchy of trust relationships from association participation through
+      orchestration to data access.
+  - label: User
+    definition: >-
+      The human person who interacts with CTN systems to consume data, register
+      endpoints, manage organization profiles and perform other operational
+      activities.
+  - label: VAD
+    aliases: [Verifiable Association Data]
+    definition: >-
+      A JWT token issued by the Association Register that proves an organization's
+      participant status, compliance verification and trustworthiness. Contains
+      static claims about the organization.
+  - label: VOD
+    aliases: [Verifiable Orchestration Data]
+    definition: >-
+      A JWT token issued by the Orchestration Register that proves a party's
+      involvement in a specific transport order. Contains dynamic claims about
+      transport relationships.
+  - label: Wild-Card VOD
+    definition: >-
+      Special VOD issued to authorities that provides access across multiple
+      dossiers for regulatory oversight.
+  - label: Zero Trust
+    definition: >-
+      Security principle where no implicit trust exists between parties; every
+      interaction must be verified.
