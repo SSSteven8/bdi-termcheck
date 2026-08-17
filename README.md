@@ -3,200 +3,74 @@
 Controleert de terminologie in de [BDI Referentiearchitectuur](https://bdi.gitbook.io/bdi-public-documentation)
 en exporteert het begrippenkader als SKOS conform NL-SBB.
 
-Het leest de GitBook-documentatie via `llms.txt`, haalt van elke pagina de
-Markdown-versie op, en vergelijkt die met de glossary, met het CTN-document, met
-DSSC, met iSHARE en met OpenID Connect.
+De tool leest de GitBook-documentatie via `llms.txt`, haalt van elke pagina de
+Markdown-versie op en vergelijkt die met de BDI-glossary, het CTN-glossary, DSSC,
+iSHARE en OpenID Connect. Het resultaat is een rapport met bevindingen en een
+machineleesbaar begrippenkader, beide reproduceerbaar in CI.
 
-## Wat het oplevert
+## Output
 
 | Bestand | Inhoud |
 | --- | --- |
-| `reports/report.md` | Rapport met alle bevindingen, gesorteerd op ernst |
-| `reports/findings.csv` | Zelfde lijst, te openen in Excel |
-| `vocab/bdi.ttl` | Het begrippenkader als SKOS/Turtle |
+| `reports/report.md` | Bevindingen, gesorteerd op ernst |
+| `reports/findings.csv` | Zelfde lijst, geschikt voor spreadsheets |
+| `vocab/bdi.ttl` | Begrippenkader als SKOS/Turtle |
 
-## De vijf controles
+## Controles
 
-| Code | Wat het zoekt | Voorbeeld dat het vindt |
+| Code | Detecteert | Voorbeeld |
 | --- | --- | --- |
-| C1-variant | Schrijfwijzen die door elkaar gebruikt worden | `Association Register` naast `Association Registry` |
-| C2-weeskind | Begrip staat in de glossary maar wordt nergens gebruikt | `Data Sovereignty` |
-| C3-ongedefinieerd | Begrip wordt veel gebruikt maar is nergens gedefinieerd | `BDI Connector`, `Local Policy Engine` |
-| C4-conflict | Zelfde begrip, twee onverenigbare definities | `Outsider` |
-| C5-mapping | Begrip heeft geen koppeling naar DSSC / iSHARE / OIDC | `Root Association` |
+| C1-variant | Schrijfwijzen die door elkaar gebruikt worden | `Association Register` vs `Association Registry` |
+| C2-weeskind | Gedefinieerd begrip dat nergens gebruikt wordt | `Data Sovereignty` |
+| C3-ongedefinieerd | Veelgebruikt begrip zonder definitie | `BDI Connector`, `Local Policy Engine` |
+| C4-conflict | Eén begrip, twee onverenigbare definities | `Outsider` |
+| C5-mapping | Begrip zonder koppeling naar DSSC / iSHARE / OIDC | `Root Association` |
 
-C1 en C5 werken op basis van `config/config.yaml`. Dat is bewust: welke varianten
-bij elkaar horen en welke term de voorkeur heeft, is een redactionele keuze, geen
-codekeuze. Jij vult die tabel, het programma doet het telwerk.
+C1 en C5 zijn configuratiegestuurd: welke varianten bij elkaar horen, welke term
+de voorkeur heeft en welke externe mappings gelden, staat in `config/config.yaml`.
+Dat is een redactionele keuze, geen codekeuze — de code doet uitsluitend het
+telwerk.
 
----
+## Vereisten
 
-# Stap voor stap: van niets naar draaiend
+- Python 3.10 of hoger
+- Git
 
-Deze uitleg gaat ervan uit dat je nog nooit met Git of Python hebt gewerkt.
-Elke regel die begint met `$` typ je in een terminal (zonder de `$`).
+## Installatie
 
-## Stap 1 — Wat je nodig hebt
-
-Installeer twee dingen op je laptop:
-
-1. **Python 3.10 of hoger** — <https://www.python.org/downloads/>
-   Vink bij het installeren op Windows *"Add Python to PATH"* aan.
-2. **Git** — <https://git-scm.com/downloads>
-
-Terminal openen: Windows → *PowerShell*. macOS → *Terminal*.
-
-Controleer of het gelukt is:
-
-```
-$ python --version
-$ git --version
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -e ".[dev]"
 ```
 
-Zie je bij allebei een versienummer, dan ben je klaar. Zegt Windows
-"python is not recognized", dan is de PATH-optie niet aangevinkt; installeer
-Python opnieuw met die vink aan.
+Op macOS/Linux:
 
-## Stap 2 — Een repository op GitHub
-
-1. Log in op <https://github.com> en ga naar de organisatie `Basic-Data-Infrastructure`.
-2. Klik **New repository**.
-3. Naam: `bdi-termcheck`. Zichtbaarheid: **Public**. Zet **Add a README** *uit*
-   (die zit al in deze map).
-4. Klik **Create repository**. GitHub toont nu een pagina met commando's — die
-   heb je zo nodig.
-
-## Stap 3 — De code naar GitHub zetten
-
-Pak deze map uit op je laptop en ga er in de terminal naartoe:
-
-```
-$ cd pad/naar/bdi-termcheck
-$ git init
-$ git add .
-$ git commit -m "Eerste versie van de terminologiecontrole"
-$ git branch -M main
-$ git remote add origin https://github.com/Basic-Data-Infrastructure/bdi-termcheck.git
-$ git push -u origin main
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
 ```
 
-Ververs de GitHub-pagina; je code staat er.
+## Gebruik
 
-> Wat gebeurde hier? `git init` maakt van de map een repository. `git add .`
-> selecteert alle bestanden. `git commit` legt een momentopname vast met een
-> omschrijving. `git remote add origin` vertelt Git waar de kopie op GitHub staat.
-> `git push` stuurt hem daarheen. Bij elke volgende wijziging herhaal je alleen
-> `git add .`, `git commit -m "..."` en `git push`.
-
-## Stap 4 — Lokaal draaien
-
-Maak een *virtual environment*: een afgeschermde Python-installatie per project,
-zodat pakketten van dit project niet botsen met andere projecten.
-
-macOS / Linux:
-
-```
-$ python3 -m venv .venv
-$ source .venv/bin/activate
-$ pip install -e ".[dev]"
+```bash
+bdi-termcheck run              # documentatie ophalen en analyseren
+bdi-termcheck run --offline    # analyseren op basis van de cache
+bdi-termcheck run --refresh    # cache negeren en opnieuw ophalen
+bdi-termcheck vocab            # vocab/bdi.ttl genereren
+pytest -q                      # tests draaien
 ```
 
-Windows PowerShell:
+De eerste `run` haalt alle documentatiepagina's op en cachet ze in `data/pages/`.
+Met `--fail-on high` (of `blocker`/`medium`/`low`) geeft de tool exitcode 1 bij
+bevindingen van die ernst of hoger, geschikt voor gebruik als CI-gate.
 
-```
-$ python -m venv .venv
-$ .venv\Scripts\Activate.ps1
-$ pip install -e ".[dev]"
-```
+## Configuratie
 
-Weigert PowerShell het activeren, draai dan eerst eenmalig:
-`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
+Alles wat menselijk oordeel vraagt staat in `config/config.yaml`.
 
-Draai nu de controle:
-
-```
-$ bdi-termcheck run
-```
-
-De eerste keer haalt hij alle 45 pagina's op (ongeveer een halve minuut) en zet
-ze in `data/pages/`. Daarna:
-
-```
-$ bdi-termcheck run --offline      # gebruik de cache, geen internet nodig
-$ bdi-termcheck run --refresh      # haal alles opnieuw op
-$ bdi-termcheck vocab              # schrijf vocab/bdi.ttl
-$ pytest -q                        # draai de tests
-```
-
-Open `reports/report.md` in je editor, of `reports/findings.csv` in Excel.
-
-Klaar met werken? `deactivate` sluit de virtual environment.
-
-## Stap 5 — Automatisch laten draaien op GitHub
-
-In `.github/workflows/termcheck.yml` staat al een *GitHub Action*: een script dat
-GitHub op hun servers voor je uitvoert. Hij draait elke maandagochtend, én bij
-elke pull request, én wanneer je zelf op de knop drukt.
-
-Zetten:
-
-1. Ga in je repository naar **Settings → Actions → General**.
-2. Onder *Workflow permissions*: kies **Read and write permissions**, en klik **Save**.
-   Zonder dit mag de action het bijgewerkte rapport niet terugcommitten.
-3. Ga naar het tabblad **Actions**, kies *Terminologiecontrole*, klik **Run workflow**.
-
-Na een minuut staat het verse rapport in de repository, en kun je het als
-*artifact* downloaden.
-
-## Stap 6 — Zichtbaar maken in GitBook
-
-GitBook ondersteunt geen eigen plugins meer op de manier die je waarschijnlijk
-in gedachten hebt; wat wél werkt is de **GitHub Sync** die GitBook aanbiedt.
-De volgorde:
-
-1. Koppel de gitbook-space aan de repository
-   `Basic-Data-Infrastructure/BDI-Reference-Architecture` (GitBook → *Integrations*
-   → *GitHub* → *Configure*).
-2. Laat deze tool het gegenereerde `reports/report.md` en een leesbare versie van
-   het begrippenkader in die repository schrijven, bijvoorbeeld als
-   `readme/glossary/terminologie-rapport.md`.
-3. GitBook publiceert dat bestand automatisch als pagina.
-
-Zo hoef je in GitBook zelf niets te programmeren: de repository is de bron, en de
-action houdt de pagina bij.
-
-## Stap 7 — Bevindingen als change requests
-
-De volgende stap in volwassenheid is dat elke bevinding van ernst `blocker` of
-`high` automatisch een issue wordt in
-[BDI-change-requests](https://github.com/Basic-Data-Infrastructure/BDI-change-requests/issues).
-Voeg daarvoor een stap toe aan de workflow met de GitHub CLI:
-
-```yaml
-      - name: Issues aanmaken voor blockers
-        env:
-          GH_TOKEN: ${{ secrets.CHANGE_REQUEST_TOKEN }}
-        run: |
-          python -c "
-          import csv
-          rows = list(csv.DictReader(open('reports/findings.csv', encoding='utf-8-sig')))
-          for r in rows:
-              if r['severity'] == 'blocker':
-                  print(r['term'], '|', r['suggestion'])
-          " > blockers.txt
-          # daarna per regel: gh issue create --repo ... --title ... --body ...
-```
-
-Bouw dit pas als de lijst met blockers stabiel is; anders overspoel je de
-issuelijst met ruis.
-
----
-
-## Configuratie aanpassen
-
-Alles wat een redactionele keuze is, staat in `config/config.yaml`.
-
-Een nieuwe variantgroep toevoegen:
+Variantgroep toevoegen:
 
 ```yaml
 variant_groups:
@@ -206,19 +80,52 @@ variant_groups:
     suggestion: Kies één rolnaam en leg de rest vast als altLabel.
 ```
 
-Een nieuw extern glossary toevoegen: maak `config/glossaries/gaiax.yaml` in
-hetzelfde formaat als de bestaande bestanden, en verwijs ernaar onder
-`external_glossaries`.
+Extern glossary toevoegen: plaats een YAML-bestand in `config/glossaries/` in het
+formaat van de bestaande bestanden en verwijs ernaar onder `external_glossaries`.
 
-Het CTN-document is leidend. Als er een nieuwe versie van het Word-document komt,
-werk je `config/glossaries/ctn.yaml` bij; dat is de machineleesbare kopie ervan.
+Het CTN-document is leidend. `config/glossaries/ctn.yaml` is de machineleesbare
+kopie ervan en wordt bijgewerkt zodra er een nieuwe versie van het document is.
 
-## Projectindeling
+## Continuous integration
+
+`.github/workflows/termcheck.yml` draait de controle wekelijks, bij elke pull
+request en on demand. De workflow vereist *Read and write permissions* onder
+**Settings → Actions → General → Workflow permissions** om het bijgewerkte rapport
+terug te committen. Het rapport en het SKOS-bestand worden daarnaast als artifact
+bewaard.
+
+## Publicatie in GitBook
+
+GitBook publiceert via GitHub Sync. Koppel de space aan de repository die de
+architectuur bevat en laat de workflow `reports/report.md` en een leesbare versie
+van het begrippenkader naar die repository schrijven; GitBook publiceert die
+bestanden vervolgens als pagina.
+
+## Begrippenkader als SKOS/NL-SBB
+
+Het gegenereerde `vocab/bdi.ttl` volgt NL-SBB, geserialiseerd als SKOS:
+
+| NL-SBB | SKOS |
+| --- | --- |
+| Term | `skos:prefLabel` |
+| Synoniem | `skos:altLabel` |
+| Definitie | `skos:definition` |
+| Toelichting | `skos:scopeNote` |
+| Bron | `dct:source` |
+| Hiërarchie | `skos:broader` / `skos:narrower` |
+| Externe gelijkstelling | `skos:exactMatch` / `closeMatch` / `relatedMatch` |
+| Vervallen | `owl:deprecated` + `skos:changeNote` |
+
+Voorgestelde namespace: `https://begrippen.bdinetwork.org/id/begrip/{slug}`.
+Het Turtle-bestand is de bron; de glossarypagina in GitBook wordt eruit
+gegenereerd.
+
+## Structuur
 
 ```
 src/bdi_termcheck/
-  fetch.py     ophalen en cachen van de GitBook-pagina's
-  extract.py   begrippen uit gitbook-HTML en uit YAML halen
+  fetch.py     ophalen en cachen van GitBook-pagina's
+  extract.py   begrippen uit GitBook-HTML en YAML
   analyze.py   de vijf controles
   skos.py      export naar SKOS/Turtle
   report.py    Markdown- en CSV-rapport
@@ -229,4 +136,4 @@ tests/         tests met vaste voorbeeldpagina's
 
 ## Licentie
 
-Voorstel: EUPL-1.2, in lijn met de rest van het BDI-ecosysteem.
+EUPL-1.2.
