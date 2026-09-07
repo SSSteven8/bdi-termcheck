@@ -9,5 +9,5 @@
     dct:title "BDI Begrippenkader"@nl , "BDI Glossary"@en ;
     dct:description "Begrippen uit de BDI Referentiearchitectuur, beschreven conform NL-SBB en geserialiseerd als SKOS."@nl ;
     dct:publisher "Basic Data Infrastructure" ;
-    dct:modified "2026-08-31"^^xsd:date .
+    dct:modified "2026-09-07"^^xsd:date .
 
