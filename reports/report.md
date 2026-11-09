@@ -1,6 +1,6 @@
 # BDI terminologie-rapport
 
-Gegenereerd op 2026-11-02 — 70 pagina's, 59 gedefinieerde begrippen, 266 bevindingen.
+Gegenereerd op 2026-11-09 — 70 pagina's, 59 gedefinieerde begrippen, 266 bevindingen.
 
 | Ernst | Aantal |
 | --- | ---: |
